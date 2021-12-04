@@ -18,11 +18,15 @@ UsersCursorsStream.on('disconnected', function(subscriptionId) {
 UsersCursorsStream.on('updateCursor', function(message) {
   const cursor = getCursorOrCreate(this.subscriptionId);
   // move mouse
-  console.log('updateCursor', message.x, message.y , this.subscriptionId);
-  cursor.style.transform = `translateX(${message.x}px) translateY(${message.y}px)`;
+  // console.log('updateCursor', message.x, message.y , this.subscriptionId);
+  const mouseX = message.x * window.innerWidth;
+  const mouseY = message.y * window.innerHeight;
+
+  console.log("window.innerWidth", window.innerWidth);
+
+  cursor.style.transform = `translateX(${mouseX}px) translateY(${mouseY}px)`;
   cursor.style.opacity = "1";
-  // cursor.style.setProperty('left', message.x + 'px');
-  // cursor.style.setProperty('top', message.y + 'px');
+
 });
 
 UsersCursorsStream.on('hideCursor', function(message) {
@@ -55,17 +59,20 @@ function hideCursor(subscriptionId) {
 }
 
 document.addEventListener("pointermove", (e) => {
+  const percentOffsetX = e.clientX / window.innerWidth;
+  const percentOffsetY = e.clientX / window.innerHeight;
+
   UsersCursorsStream.emit('updateCursor', {
-    x: e.clientX, //Math.random()* document.body.clientWidth,
-    y: e.clientY //Math.random()* document.body.clientHeight,
+    x: percentOffsetX, //Math.random()* window.innerWidth,
+    y: percentOffsetY //Math.random()* window.innerHeight,
   });
 });
 
 document.addEventListener("pointerleave", (e) => {
   // room.updatePresence({ cursor: null });
   UsersCursorsStream.emit('hideCursor', {
-    x: e.clientX, //Math.random()* document.body.clientWidth,
-    y: e.clientY //Math.random()* document.body.clientHeight,
+    x: e.clientX, //Math.random()* window.innerWidth,
+    y: e.clientY //Math.random()* window.innerHeight,
   });
 });
 
@@ -75,8 +82,8 @@ onMount(()=>{
   // console.log(UsersCursorsStream, cursorsContainer)
   // setInterval( () => {
   //   UsersCursorsStream.emit('updateCursor', {
-  //       x: Math.random()* document.body.clientWidth,
-  //       y: Math.random()* document.body.clientHeight,
+  //       x: Math.random()* window.innerWidth,
+  //       y: Math.random()* window.innerHeight,
   //   });
   // }, 1000);
 });
@@ -112,4 +119,4 @@ onMount(()=>{
   Move your cursor to broadcast its position to other people in the room
 </div>
 
-<div id="cursors-container" bind:this={cursorsContainer} style="height: 100vh; width: 100wh; z-index:-999;"></div>
+<div id="cursors-container" bind:this={cursorsContainer} style="height: 100vh; width: 100wh; z-index:-999;border:1px black"></div>
