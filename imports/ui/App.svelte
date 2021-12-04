@@ -22,9 +22,13 @@ UsersCursorsStream.on('updateCursor', function(message) {
   const mouseX = message.x * window.innerWidth;
   const mouseY = message.y * window.innerHeight;
 
-  console.log("window.innerWidth", window.innerWidth);
+  // console.log("window.innerWidth", window.innerWidth, window.innerHeight);
+
+  console.log("mouseX", mouseX, mouseY);
 
   cursor.style.transform = `translateX(${mouseX}px) translateY(${mouseY}px)`;
+  // cursor.style.left = mouseX+'px';
+  // cursor.style.top = mouseY+'px';
   cursor.style.opacity = "1";
 
 });
@@ -60,7 +64,7 @@ function hideCursor(subscriptionId) {
 
 document.addEventListener("pointermove", (e) => {
   const percentOffsetX = e.clientX / window.innerWidth;
-  const percentOffsetY = e.clientX / window.innerHeight;
+  const percentOffsetY = e.clientY / window.innerHeight;
 
   UsersCursorsStream.emit('updateCursor', {
     x: percentOffsetX, //Math.random()* window.innerWidth,
@@ -93,9 +97,9 @@ onMount(()=>{
   id="cursor-template"
   style="
     position: absolute;
-    left: 100;
-    top: 100;
-    transition: transform 0.5s cubic-bezier(0.17, 0.93, 0.38, 1);
+    left: 0;
+    top: 0;
+    transition: transform 0.1s cubic-bezier(0.17, 0.93, 0.38, 1);
     fill: transparent;
   "
   width="24"
@@ -108,15 +112,16 @@ onMount(()=>{
   />
 </svg>
 
-<div
+<!-- <div
   style="
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100vw;
     height: 100vh;
   "
 >
   Move your cursor to broadcast its position to other people in the room
-</div>
+</div> -->
 
-<div id="cursors-container" bind:this={cursorsContainer} style="height: 100vh; width: 100wh; z-index:-999;border:1px black"></div>
+<div id="cursors-container" bind:this={cursorsContainer} style="height: 100vh; width: 100vw; z-index:-999;border: 5px solid red"></div>
