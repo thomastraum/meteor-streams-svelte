@@ -17,15 +17,8 @@ UsersCursorsStream.on('disconnected', function(subscriptionId) {
 //listen on UsersCursorsStream on the message event
 UsersCursorsStream.on('updateCursor', function(message) {
   const cursor = getCursorOrCreate(this.subscriptionId);
-  // move mouse
-  // console.log('updateCursor', message.x, message.y , this.subscriptionId);
   const mouseX = message.x * window.innerWidth;
   const mouseY = message.y * window.innerHeight;
-
-  // console.log("window.innerWidth", window.innerWidth, window.innerHeight);
-
-  console.log("mouseX", mouseX, mouseY);
-
   cursor.style.transform = `translateX(${mouseX}px) translateY(${mouseY}px)`;
   // cursor.style.left = mouseX+'px';
   // cursor.style.top = mouseY+'px';
@@ -82,14 +75,6 @@ document.addEventListener("pointerleave", (e) => {
 
 onMount(()=>{
   UsersCursorsStream.emit('new_user', "");
-  // document.getElementById("cursors-container");
-  // console.log(UsersCursorsStream, cursorsContainer)
-  // setInterval( () => {
-  //   UsersCursorsStream.emit('updateCursor', {
-  //       x: Math.random()* window.innerWidth,
-  //       y: Math.random()* window.innerHeight,
-  //   });
-  // }, 1000);
 });
 
 </script>
