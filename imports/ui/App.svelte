@@ -124,4 +124,4 @@ onMount(()=>{
   Move your cursor to broadcast its position to other people in the room
 </div> -->
 
-<div id="cursors-container" bind:this={cursorsContainer} style="height: 100vh; width: 100vw; z-index:-999;border: 5px solid red"></div>
+<div id="cursors-container" bind:this={cursorsContainer} style="height: 100vh; width: 100vw; z-index:-999;"></div>
